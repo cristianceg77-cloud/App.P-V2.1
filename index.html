@@ -94,25 +94,59 @@ function App() {
   };
 
   const RESPUESTAS = [
-    { palabras:["ansiedad","ansioso","ansiosa","nervioso","nerviosa","angustia","angustiado"],
-      resp:"La ansiedad es una señal de que algo importa. Probá respirar 4-7-8: inhalá 4 segundos, retenés 7, exhalás 8. Repetilo 3 veces. También ayuda nombrar 5 cosas que ves, 4 que tocás, 3 que escuchás — eso te ancla al presente." },
-    { palabras:["solo","sola","soledad","aislado","aislada","nadie"],
+    // Ansiedad
+    { palabras:["ansiedad","ansioso","ansiosa","nervioso","nerviosa","angustia","angustiado","angustiada","pánico","ataque","fobia","preocupado","preocupada","preocupación"],
+      resp:"La ansiedad es una señal de que algo importa. Probá respirar 4-7-8: inhalá 4 segundos, retenés 7, exhalás 8. Repetilo 3 veces. También ayuda nombrar 5 cosas que ves, 4 que tocás, 3 que escuchás — eso te ancla al presente y le dice al sistema nervioso que estás a salvo." },
+    // Soledad
+    { palabras:["solo","sola","soledad","aislado","aislada","nadie","incomprendido","incomprendida","invisible"],
       resp:"La soledad es una de las sensaciones más difíciles, y es profundamente humana. No significa que algo esté mal en vos — significa que necesitás conexión. A veces empezar pequeño ayuda: un mensaje a alguien que apreciás, o simplemente escribir en el diario lo que sentís." },
-    { palabras:["triste","tristeza","llorar","lloro","pena","mal","horrible"],
+    // Tristeza
+    { palabras:["triste","tristeza","llorar","lloro","llorando","pena","deprimido","deprimida","vacío","vacía","sin ganas","desgano"],
       resp:"Está bien sentirse triste. No tenés que apurarte a estar bien. Permitite sentir lo que sentís, sin juzgarte. Si querés, escribí en el diario lo que está pasando — a veces poner en palabras lo que duele ayuda a entenderlo un poco mejor." },
-    { palabras:["estresado","estresada","estrés","stress","agobiado","agobiada","abrumado","abrumada","presión"],
+    // Estrés
+    { palabras:["estresado","estresada","estrés","stress","agobiado","agobiada","abrumado","abrumada","presión","sobrepasado","sobrepasada","colapsado","colapsada"],
       resp:"El estrés acumulado pesa mucho. Una cosa que ayuda: escribí todo lo que te preocupa, luego separá lo que podés controlar de lo que no. Soltar lo segundo libera energía real. El diario de acá puede ser un buen lugar para hacer ese ejercicio." },
-    { palabras:["motivación","motivado","motivada","ganas","energía","flojo","floja","vago","vaga"],
+    // Motivación
+    { palabras:["motivación","motivado","motivada","ganas","energía","flojo","floja","vago","vaga","procrastinando","procrastinar","postergando","postergar","no arranco"],
       resp:"La motivación no llega esperándola — llega actuando. Empezá ridículamente pequeño: 2 minutos, una sola tarea. El movimiento crea el impulso. También vale preguntarse si lo que perseguís es realmente tuyo o lo que 'deberías' querer." },
-    { palabras:["dormir","sueño","insomnio","desvelado","desvelada","noche","duermo"],
+    // Sueño
+    { palabras:["dormir","sueño","insomnio","desvelado","desvelada","noche","duermo","desvelo","cansado","cansada","agotado","agotada","no puedo dormir"],
       resp:"El sueño se gana durante el día. Limitá la cafeína después de las 14hs, bajá la temperatura del cuarto, y 30 minutos antes apagá las pantallas. Al acostarte, pensá en 3 momentos buenos del día por pequeños que sean — cambia el estado mental para dormir." },
-    { palabras:["pensamientos","negativo","negativos","cabeza","obsesivo","rumia","rumiando"],
+    // Pensamientos negativos
+    { palabras:["pensamientos","negativo","negativos","cabeza","obsesivo","obsesiva","rumia","rumiando","no puedo parar","me tortura","me torturan"],
       resp:"Los pensamientos no son hechos — son hipótesis. Cuando llegue uno negativo, preguntate: ¿tengo evidencia real de esto? ¿Le diría esto a alguien que quiero? Escribirlo ayuda mucho — externalizar el pensamiento le quita poder." },
-    { palabras:["bien","bueno","feliz","alegre","contento","contenta","genial","excelente"],
-      resp:"Qué bueno escuchar eso 🌿 Guardá ese momento — anotalo en el diario para que quede registrado. Los días buenos merecen ser recordados tanto como los difíciles." },
-    { palabras:["gracias","thank","agradecido","agradecida"],
-      resp:"De nada, acá estoy siempre que lo necesités. Recordá que el diario y el registro de estado de ánimo también son herramientas tuyas para conocerte mejor." },
-    { palabras:["ayuda","ayudar","puedo","cómo","como","qué","que","hacerlo"],
+    // Autoestima
+    { palabras:["autoestima","inseguro","insegura","no sirvo","no valgo","soy un fracaso","fracasé","fracasado","fracasada","inútil","vergüenza","me odio","me detesto"],
+      resp:"Lo que sentís es real, pero no es la verdad completa sobre vos. La mente a veces habla muy duro. Intentá escribir 3 cosas pequeñas que hiciste bien hoy — no tienen que ser grandes. Entrenamos el cerebro a notar lo que ignoraba." },
+    // Relaciones / conflictos
+    { palabras:["pelea","peleé","discutí","discusión","relación","pareja","amigo","amiga","familia","familiar","me lastimaron","me hirieron","traición","traicionado","traicionada"],
+      resp:"Los conflictos con personas que importan duelen mucho. Antes de actuar, ayuda escribir todo lo que sentís sin filtro — no para mandárselo a nadie, sino para vos. Aclarar lo que sentís adentro primero hace más fácil saber qué hacer afuera." },
+    // Trabajo / estudio
+    { palabras:["trabajo","laburo","jefe","jefa","empleado","empleada","estudio","facultad","colegio","escuela","examen","rendir","me echaron","me despidieron","renuncié"],
+      resp:"Las presiones del trabajo o el estudio pueden ser muy agotadoras. Recordá que tu valor como persona no depende de tu rendimiento. Hacé una pausa consciente: 5 minutos lejos de la pantalla, caminá un poco, respirá. El cerebro trabaja mejor cuando descansa." },
+    // Miedo al futuro
+    { palabras:["futuro","miedo","incertidumbre","qué va a pasar","no sé qué hacer","perdido","perdida","dirección","camino","decisión","decidir"],
+      resp:"La incertidumbre es incómoda, pero también es parte de estar vivo. No tenés que tener todo resuelto hoy. Una pregunta útil: ¿qué es lo único que puedo hacer hoy, aunque sea pequeño, que me acerque a donde quiero estar?" },
+    // Culpa
+    { palabras:["culpa","culpable","me arrepiento","arrepentimiento","hice mal","me equivoqué","error","cometí"],
+      resp:"Sentir culpa significa que tenés valores — eso importa. Pero hay una diferencia entre aprender de un error y castigarte indefinidamente. Preguntate: ¿qué haría diferente? Respondé eso, y luego darte permiso de seguir." },
+    // Cuerpo / salud
+    { palabras:["cuerpo","salud","enfermo","enferma","dolor","duele","médico","diagnóstico","hospital","operación"],
+      resp:"Cuando el cuerpo no está bien, todo se siente más pesado. Permitite tomarlo con calma y sin exigirte demasiado. Si todavía no hablaste con un médico, ese es el primer paso. Y si ya lo hiciste, recordá que sanar lleva tiempo." },
+    // Gratitud / cosas buenas
+    { palabras:["bien","bueno","feliz","alegre","contento","contenta","genial","excelente","increíble","agradecido","agradecida","gracias","emocionado","emocionada","logré","conseguí"],
+      resp:"Qué bueno escuchar eso 🌿 Guardá ese momento — anotalo en el diario para que quede registrado. Los días buenos merecen ser recordados tanto como los difíciles. ¿Qué fue lo que pasó?" },
+    // Respiración / relajación
+    { palabras:["respirar","respiración","meditar","meditación","relajar","relajación","calmar","calmarme","técnica","ejercicio"],
+      resp:"Una técnica simple: cerrá los ojos, inhalá contando hasta 4, retené 4, exhalá 6. Repetilo 5 veces. Otro ejercicio: tensá todos los músculos del cuerpo 5 segundos y soltá — eso libera tensión acumulada que no siempre notamos." },
+    // Cambio / adaptación
+    { palabras:["cambio","cambios","adaptarme","mudanza","nuevo trabajo","nueva ciudad","nueva etapa","transición","empezar de nuevo","comenzar de nuevo"],
+      resp:"Los cambios grandes, aunque sean buenos, generan inestabilidad. Es normal sentirse desorientado al principio. Andá de a poco: enfocate en una cosa nueva por vez, y buscá algún elemento de rutina que te dé estabilidad en medio del cambio." },
+    // No sé qué siento
+    { palabras:["no sé","no entiendo","confundido","confundida","raro","rara","extraño","extraña","no puedo explicar","no encuentro palabras"],
+      resp:"A veces las emociones llegan antes que las palabras. Está bien no saber nombrar lo que sentís. El diario puede ayudarte — escribí sin estructura, sin sentido si hace falta. A veces al escribir aparece lo que no podíamos ver." },
+    // Ayuda general
+    { palabras:["ayuda","ayudar","cómo","como","qué hago","que hago","qué puedo","que puedo","no sé qué hacer","consejos","consejo"],
       resp:"Estoy acá para acompañarte. Podés contarme cómo te sentís, usar el diario para escribir libremente, o registrar tu estado de ánimo en el calendario. ¿Qué es lo que más necesitás ahora mismo?" },
   ];
 

@@ -158,10 +158,39 @@ function App() {
     "Entiendo. ¿Hay algo puntual que te esté pesando hoy?",
   ];
 
+  const NEGACIONES = ["no","ni","nunca","jamás","sin","tampoco"];
+
   const getBotReply = (text) => {
     const lower = text.toLowerCase();
+    const tokens = lower.split(/\s+/);
+
+    // Detectar si hay negación antes de una palabra clave positiva
+    const tieneNegacionAntes = (palabra) => {
+      const idx = tokens.findIndex(t => t.includes(palabra));
+      if(idx === -1) return false;
+      for(let i = Math.max(0, idx-3); i < idx; i++){
+        if(NEGACIONES.includes(tokens[i])) return true;
+      }
+      return false;
+    };
+
+    // Primero buscar patrones negativos explícitos
+    const patronesNegativos = ["no estoy bien","no me siento bien","me siento mal","estoy mal","no me encuentro bien","no ando bien","ando mal","me siento horrible","me siento pésimo","me siento pésima","no estoy okay","no estoy ok"];
+    for(const patron of patronesNegativos){
+      if(lower.includes(patron)){
+        return "Gracias por contarme. No estar bien también es válido — no tenés que fingir que todo está okay. ¿Querés contarme un poco más sobre lo que está pasando? Estoy acá para escucharte sin juzgarte.";
+      }
+    }
+
     for(const {palabras, resp} of RESPUESTAS){
-      if(palabras.some(p => lower.includes(p))) return resp;
+      const coincide = palabras.some(p => {
+        if(!lower.includes(p)) return false;
+        // Si la palabra es positiva, verificar que no haya negación antes
+        const esPositiva = ["bien","bueno","feliz","alegre","contento","contenta","genial","excelente","increíble","agradecido","agradecida","emocionado","emocionada","logré","conseguí"].includes(p);
+        if(esPositiva && tieneNegacionAntes(p)) return false;
+        return true;
+      });
+      if(coincide) return resp;
     }
     return FALLBACKS[Math.floor(Math.random() * FALLBACKS.length)];
   };

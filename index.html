@@ -93,27 +93,55 @@ function App() {
     setSaved(true); setTimeout(()=>setSaved(false),2000);
   };
 
-  const sendMsg = async (text) => {
+  const RESPUESTAS = [
+    { palabras:["ansiedad","ansioso","ansiosa","nervioso","nerviosa","angustia","angustiado"],
+      resp:"La ansiedad es una señal de que algo importa. Probá respirar 4-7-8: inhalá 4 segundos, retenés 7, exhalás 8. Repetilo 3 veces. También ayuda nombrar 5 cosas que ves, 4 que tocás, 3 que escuchás — eso te ancla al presente." },
+    { palabras:["solo","sola","soledad","aislado","aislada","nadie"],
+      resp:"La soledad es una de las sensaciones más difíciles, y es profundamente humana. No significa que algo esté mal en vos — significa que necesitás conexión. A veces empezar pequeño ayuda: un mensaje a alguien que apreciás, o simplemente escribir en el diario lo que sentís." },
+    { palabras:["triste","tristeza","llorar","lloro","pena","mal","horrible"],
+      resp:"Está bien sentirse triste. No tenés que apurarte a estar bien. Permitite sentir lo que sentís, sin juzgarte. Si querés, escribí en el diario lo que está pasando — a veces poner en palabras lo que duele ayuda a entenderlo un poco mejor." },
+    { palabras:["estresado","estresada","estrés","stress","agobiado","agobiada","abrumado","abrumada","presión"],
+      resp:"El estrés acumulado pesa mucho. Una cosa que ayuda: escribí todo lo que te preocupa, luego separá lo que podés controlar de lo que no. Soltar lo segundo libera energía real. El diario de acá puede ser un buen lugar para hacer ese ejercicio." },
+    { palabras:["motivación","motivado","motivada","ganas","energía","flojo","floja","vago","vaga"],
+      resp:"La motivación no llega esperándola — llega actuando. Empezá ridículamente pequeño: 2 minutos, una sola tarea. El movimiento crea el impulso. También vale preguntarse si lo que perseguís es realmente tuyo o lo que 'deberías' querer." },
+    { palabras:["dormir","sueño","insomnio","desvelado","desvelada","noche","duermo"],
+      resp:"El sueño se gana durante el día. Limitá la cafeína después de las 14hs, bajá la temperatura del cuarto, y 30 minutos antes apagá las pantallas. Al acostarte, pensá en 3 momentos buenos del día por pequeños que sean — cambia el estado mental para dormir." },
+    { palabras:["pensamientos","negativo","negativos","cabeza","obsesivo","rumia","rumiando"],
+      resp:"Los pensamientos no son hechos — son hipótesis. Cuando llegue uno negativo, preguntate: ¿tengo evidencia real de esto? ¿Le diría esto a alguien que quiero? Escribirlo ayuda mucho — externalizar el pensamiento le quita poder." },
+    { palabras:["bien","bueno","feliz","alegre","contento","contenta","genial","excelente"],
+      resp:"Qué bueno escuchar eso 🌿 Guardá ese momento — anotalo en el diario para que quede registrado. Los días buenos merecen ser recordados tanto como los difíciles." },
+    { palabras:["gracias","thank","agradecido","agradecida"],
+      resp:"De nada, acá estoy siempre que lo necesités. Recordá que el diario y el registro de estado de ánimo también son herramientas tuyas para conocerte mejor." },
+    { palabras:["ayuda","ayudar","puedo","cómo","como","qué","que","hacerlo"],
+      resp:"Estoy acá para acompañarte. Podés contarme cómo te sentís, usar el diario para escribir libremente, o registrar tu estado de ánimo en el calendario. ¿Qué es lo que más necesitás ahora mismo?" },
+  ];
+
+  const FALLBACKS = [
+    "Gracias por compartir eso conmigo. ¿Querés contarme un poco más sobre lo que estás sintiendo?",
+    "Te escucho. A veces poner en palabras lo que sentimos ya es un primer paso. ¿Qué está pasando?",
+    "Estoy acá. No tenés que tener todo claro para hablar — podés escribir lo que sea y lo vemos juntos.",
+    "Eso que sentís importa. ¿Querés usar el diario para explorar un poco más lo que está pasando?",
+    "Entiendo. ¿Hay algo puntual que te esté pesando hoy?",
+  ];
+
+  const getBotReply = (text) => {
+    const lower = text.toLowerCase();
+    for(const {palabras, resp} of RESPUESTAS){
+      if(palabras.some(p => lower.includes(p))) return resp;
+    }
+    return FALLBACKS[Math.floor(Math.random() * FALLBACKS.length)];
+  };
+
+  const sendMsg = (text) => {
     if(!text.trim()) return;
-    setMessages(m=>[...m,{role:"user",text}]); setInput(""); setLoading(true);
-    try {
-      const res = await fetch("https://api.anthropic.com/v1/messages",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          model:"claude-sonnet-4-20250514", max_tokens:1000,
-          system:"Eres un acompañante emocional cálido, empático y sabio. Respondés en español rioplatense, con frases cortas y directas. No sos terapeuta pero orientás con compasión. Máximo 4 oraciones. Sin listas ni bullets.",
-          messages:[
-            ...messages.filter((_,i)=>i>0).map(x=>({role:x.role==="ai"?"assistant":"user",content:x.text})),
-            {role:"user",content:text}
-          ]
-        })
-      });
-      const data = await res.json();
-      const reply = data.content?.map(c=>c.text||"").join("")||"Lo siento, no pude responder.";
+    setMessages(m=>[...m,{role:"user",text}]);
+    setInput("");
+    setLoading(true);
+    setTimeout(()=>{
+      const reply = getBotReply(text);
       setMessages(m=>[...m,{role:"ai",text:reply}]);
-    } catch { setMessages(m=>[...m,{role:"ai",text:"Problema de conexión. Intentá de nuevo 🌿"}]); }
-    setLoading(false);
+      setLoading(false);
+    }, 800);
   };
 
   const renderCal = () => {
